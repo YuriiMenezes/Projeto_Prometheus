@@ -1,0 +1,46 @@
+{% load static %}
+{% load humanize %}
+{% load crispy_forms_tags %}
+
+<!--_head.html-->
+
+{% include 'parciais/_head.html' %}
+
+<!--_head.html-->
+
+<body>
+
+   
+   <!--_nav.html-->
+
+   {% include 'parciais/_nav.html' %}
+
+<!--/_nav.html-->
+ 
+ <!--Titulo--> 
+
+    {% block title %}  {% endblock %}
+
+<!--Titulo-->
+
+    
+<!--Conteudo-->
+    {% block content %}
+
+
+
+    {% endblock %}
+<!--Conteudo-->
+    
+
+<!--footer-->
+
+    {% include 'parciais/_footer.html' %}
+
+<!--footer-->  
+        
+</body>
+
+
+
+</html>
