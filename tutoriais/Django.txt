@@ -1,0 +1,85 @@
+
+criando o ambiente virtual
+
+$ python -m venv nome do ambiente virtual
+
+ativando anbiente virtual
+
+$ .\nome do ambiente virtual\Scripts\activate.ps1
+
+se aprecer um erro usar o seguinte passo 
+
+no power shel como administrado usar o comando 
+
+PS C:\Windows\system32> Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+
+executar o seguinte comando novamente 
+
+$ .\nome do ambiente virtual\Scripts\activate.ps1
+
+desctivate pra desabilitar o ambiente virtual
+
+pronto ... podemos começar a instalar as coisas
+
+se tiver um arquivo requerimentos.txt 
+
+instalar requerimentos.txt ---- o arquivo txt tem que ta na pasta do projeto
+
+
+$ pip install -r requirements.txt
+
+se nao instalaremos manualmente
+
+
+$ pip install django
+
+pip install wheel
+$ pip install django-ckeditor
+$ pip install pillow
+$ pip install django-crispy-forms
+$ pip install bootstrap4
+pip install django-summernote
+pip install django-axes
+pip install requests
+pip install mysqlclient
+
+ --- instal tudo de uma vez ---- pip install django wheel pillow django-crispy-forms bootstrap4 django-summernote mysqlclient
+
+pip freeze > requirements.txt  ---comando para gerar o requirements.txt
+
+
+colar no settings.py abaixo do 
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+ # referente a segurança com o axes
+
+AUTHENTICATION_BACKENDS = [
+    # AxesBackend should be the first backend in the AUTHENTICATION_BACKENDS list.
+    'axes.backends.AxesBackend',
+
+    # Django ModelBackend is the default authentication backend.
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+em middware clocar essa linha abaixo de todas as outras
+
+'axes.middleware.AxesMiddleware',
+
+para resetar a segurança de senha use um dos comandos abaixo
+
+python manage.py axes_reset
+
+python manage.py axes_reset_ip [ip ...]
+python manage.py axes_reset_username [username ...]
+python manage.py axes_reset_logs (age)
+
+
+comandos basicos Django
+
+$  python manage.py check
+$  python manage.py runserver
+$  python manage.py makemigrations
+$  python manage.py migrate
+$  python manage.py createsuperuser
+

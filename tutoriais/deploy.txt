@@ -1,0 +1,170 @@
+deploy passo a passo
+
+coletar os arquivos staticos antes do deploy
+
+#python manage.py collectstatic
+
+preparando o servidor
+
+logo apos logar no servidor via ssh e preparar o ambiente
+
+# Instalando
+sudo apt install python3-pip python3.9 python3.9-dev python3.9-venv gcc default-libmysqlclient-dev libssl-dev nginx curl
+
+# Atualizando pip e demais
+python3.9 -m pip install --upgrade pip setuptools wheel --user
+export PATH="/home/$USER/.local/bin:$PATH"
+python3.9 -m pip install pipenv --user
+
+# Criar pasta
+mkdir projeto
+# Entrar na pasta
+cd projeto
+
+# Criando o ambiente virtual
+python3.9 -m venv env
+source env/bin/activate
+python3.9 -m pip install django gunicorn pillow
+
+e tiver um arquivo requerimentos.txt 
+
+instalar requerimentos.txt ---- o arquivo txt tem que ta na pasta do projeto
+
+
+$ pip install -r requirements.txt
+
+se nao instalaremos manualmente
+
+
+$ pip install django
+
+pip install wheel
+$ pip install django-ckeditor
+$ pip install pillow
+$ pip install django-crispy-forms
+$ pip install bootstrap4
+pip install django-summernote
+pip install django-axes
+pip install requests
+pip install mysqlclient
+
+ --- instal tudo de uma vez ---- pip install django wheel pillow django-crispy-forms bootstrap4 django-summernote mysqlclient
+
+pip freeze > requirements.txt  ---comando para gerar o requirements.txt
+
+
+
+
+## FONTE:
+## https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-18-04
+
+# Criando o arquivo
+sudo nano /etc/systemd/system/gunicorn.socket
+##################################################
+
+# COLAR (SEM EDIÇÃO)
+[Unit]
+Description=gunicorn socket
+
+[Socket]
+ListenStream=/run/gunicorn.sock
+
+[Install]
+WantedBy=sockets.target
+##################################################
+
+# Criando outro arquivo
+sudo nano /etc/systemd/system/gunicorn.service
+##################################################
+
+# Editar, depois Colar
+[Unit]
+Description=gunicorn daemon
+Requires=gunicorn.socket
+After=network.target
+
+[Service]
+User=yurim
+Group=www-data
+WorkingDirectory=/home/yurim/projeto/raiz
+ExecStart=/home/yurim/projeto/env/bin/gunicorn \
+          --access-logfile - \
+          --workers 3 \
+          --bind unix:/run/gunicorn.sock \
+          agenda.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
+##################################################
+
+# Ativando
+sudo systemctl start gunicorn.socket
+sudo systemctl enable gunicorn.socket
+##################################################
+
+# Checando
+sudo systemctl status gunicorn.socket
+sudo systemctl status gunicorn
+curl --unix-socket /run/gunicorn.sock localhost
+sudo systemctl status gunicorn
+##################################################
+
+sudo nano /etc/nginx/sites-enabled/sitedjango
+##################################################
+
+# Configurando o nginx server block
+server {
+    listen 80;
+    server_name localhost;
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    
+    location /static/ {
+        root /home/yurim/projeto/raiz;
+    }
+
+    location /media {
+        alias /home/yurim/projeto/raiz/media/;
+    }
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/run/gunicorn.sock;
+    }
+}
+
+##################################################
+
+sudo rm /etc/nginx/sites-enabled/default
+sudo systemctl restart nginx
+sudo systemctl restart gunicorn
+##################################################
+
+
+deixando o servidor seguro
+
+instalar o seguintes apps
+
+sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
+sudo apt-get install certbot
+sudo service nginx stop
+sudo certbot certonly --standalone -d projetoprometheus.com.br
+sudo service nginx start
+
+###### colocar isso no settings.py
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+
+
+
+
+para resetar a segurança de senha use um dos comandos abaixo
+
+python manage.py axes_reset
+
+python manage.py axes_reset_ip [ip ...]
+python manage.py axes_reset_username [username ...]
+python manage.py axes_reset_logs (age)

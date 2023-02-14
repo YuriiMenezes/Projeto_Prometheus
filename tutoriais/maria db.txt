@@ -1,0 +1,80 @@
+Instale MariaDB no Debian 11 / Debian 10
+
+como instalar o MariaDB no Debian 11 / Debian 10.
+ MariaDB é um substituto imediato do MySQL com mais recursos,
+ novos mecanismos de armazenamento e melhor desempenho.
+
+deixe o sistema atualizado
+ 
+#sudo apt -y update
+
+#sudo apt -y upgrade
+
+agora usaremos o seguinte comando para instalar o mariadb
+
+#sudo apt install mariadb-server mariadb-client
+
+Agora execute o script seguro para definir a senha do root,
+ remova o banco de dados de teste e desabilite o login do usuário root remoto.
+
+$ sudo mysql_secure_installation
+
+tecle enter pra tudo e na hora que aparecer nova senha digite a senha que vc deseja para o banco de dados...
+ é importante que lembre dessa senha pois a usaremos mais tarde.
+
+agora vamos acessar o banco de dados com o comando
+
+mysql -u root -p -h localhost -P 3306
+
+para mostrar os bancos de dados 
+
+mysql>show databases; 
+
+para criar um novo banco de dados
+
+mysql>create database djangoDB character set utf8 collate utf8_bin;
+
+criando o usuario e a senha para o banco de dados
+# entre aspas troque o password por sua senha
+
+mysql> create user yurim@localhost identified by 'password'; 
+
+liberando todos as permissoes para seu usuario nesse banco de dados
+
+mysql> grant all privileges on djangoDB.* to yurim@localhost;
+
+ mysql> select user, host from mysql.user;
+
+pronto terminanmos agora vamos usar o seguinte comando para sair 
+
+mysql> quit; 
+
+
+
+sudo nano /etc/mysql/mariadb.conf.d/50-server.cnf
+
+colocar no arquivo a seguinte linha
+
+bind-address             = 0.0.0.0
+
+systemctl restart mariadb
+
+
+On your server run mysql from command line:
+
+mysql -u root -p -h localhost -P 3306
+
+Then run this command in mysql shell:
+
+>use mysql
+>GRANT ALL ON *.* to root@'%' IDENTIFIED BY 'yourpassword';
+>FLUSH PRIVILEGES;
+
+trocar a senha do maria db 
+
+>SET PASSWORD FOR 'root'@'localhost' = PASSWORD('nova-senha');
+>FLUSH PRIVILEGES;
+
+
+
+
