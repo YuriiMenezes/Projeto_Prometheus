@@ -3,7 +3,17 @@ criando o ambiente virtual
 
 $ python -m venv nome do ambiente virtual
 
+se for no debian instalar ambiente virtual primeiro
+-apt-get install python3-venv
+depois criar o ambiente virtual
+-python3 -m venv env
+
 ativando anbiente virtual
+
+no debian
+-source env/bin/activate
+
+no windows
 
 $ .\nome do ambiente virtual\Scripts\activate.ps1
 
