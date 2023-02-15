@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load humanize %}
+
+
+
+
+{% block content %}
+
+  
+
+      <!-- Principal jumbotron, para a principal mensagem de marketing ou call to action -->
+      <div class="jumbotron">
+        <div class="container">
+          <h1 class="display-3">Projeto Prometheus</h1>
+          <p>Iniciativa sem fins lucrativos que busca propagação de conhecimento .</p>
+          <!--<p><a class="btn btn-primary btn-lg" href="#" role="button">Saiba mais &raquo;</a></p> -->
+        </div>
+      </div>
+
+      <div class="container">
+        <!-- Exemplo de linha de colunas -->
+        <div class="row">
+          <div class="col-md-4">
+            <h2>Nossa História</h2>
+            <p>A idéia surgiu diante da necessidade de sempre estar revendo os mesmos artigos que por vezes estavam desatualizados ou com descrições incorretas.
+              Diante dessa dificuldade o projeto surgiu para ajudar no desenvolvimento e com informações basicas mas, atualizadas para serem usadas no dia-a-dia. </p>
+          
+          </div>
+          <div class="col-md-4">
+            <h2>Objetivos</h2>
+            <p>Propagar o conhecimento, troca de informações e maneiras diferentes e mais simples de resolver problemas .
+              Aprender e ensinar... </p>
+           
+          </div>
+          <div class="col-md-4">
+            <h2>Toda ajuda Possivel !!!</h2>
+            <p>Alguns artigos foram copiados de outras fontes, porém em todos eles está referênciado o autor original e o endereço para a postagem original..</p>
+           
+          </div>
+        </div>
+
+        <hr>
+
+      </div> <!-- /container -->
+
+
+
+      {% endblock %}
+

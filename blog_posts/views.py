@@ -26,6 +26,18 @@ def handler500(request): # função para direcionar a pagina de erro 505
     return    render(request, 'erro500.html')
 
 
+        
+class sobre_nos(ListView):
+    
+    model = Post
+    form_class = PostForm
+    template_name = 'blog_posts/sobre_nos.html'
+   
+
+#def sobre_nos(request): # função para direcionar a pagina de erro 505
+ #   return    render(request, 'sobre_nos.html')    
+
+
 class PostIndex(ListView):
     
    model = Post #model usado para preencher 
